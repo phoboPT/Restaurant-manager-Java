@@ -1,21 +1,33 @@
 package Restaurant;
 
 import Entity.Adress;
+import Entity.Employee;
 import Menu.Menu;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
 
-public class Branch {
+public class Branch implements Serializable {
     private String name;
     private Adress location;
     private Kitchen kitchen;
     private HashMap<Integer, TableChart> tableCharts = new HashMap();
+    private HashMap<Integer, Employee> employees = new HashMap();
     private Menu menu;
 
     public Branch(String name, Adress location) {
         this.name = name;
         this.location = location;
 
+    }
+
+    public Collection<Employee> getEmployees() {
+        return employees.values();
+    }
+
+    public void setEmployees(HashMap<Integer, Employee> employees) {
+        this.employees = employees;
     }
 
     public Menu getMenu() {

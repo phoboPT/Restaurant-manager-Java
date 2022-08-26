@@ -1,10 +1,11 @@
 package Restaurant;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class Restaurant {
+public class Restaurant implements Serializable {
     private String name;
     private HashMap<String,Branch> branches= new HashMap();
 
@@ -45,5 +46,8 @@ public class Restaurant {
 
     public Collection<Branch> getBranches() {
         return branches.values();
+    }
+
+    public void getEmployees() {
     }
 }

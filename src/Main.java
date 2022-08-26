@@ -1,6 +1,7 @@
 import Employee.Account;
 import Employee.Chef;
 import Entity.Adress;
+import Entity.Employee;
 import Enum.AccountStatus;
 import Restaurant.Branch;
 import Restaurant.Kitchen;
@@ -9,25 +10,70 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Scanner;
 
 
 public class Main {
-    static Restaurant restaurant = new Restaurant();
+    static Restaurant restaurant;
 
     public static void main(String[] args) {
-        System.out.println("Enter restaurant name: ");
-        restaurant.setName(readString());
-        System.out.println(restaurant);
+        try {
+
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("save.bin"));
+            restaurant = (Restaurant) in.readObject();
+
+            System.out.println(restaurant.getName() + " " + restaurant.getBranches());
+
+            in.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+            if(restaurant==null){
+                System.out.println("Restaurant name: ");
+                restaurant = new Restaurant(readString());
+            }
+        }
+
         boolean exit = false;
         while (exit == false) {
+//            System.out.println("username: ");
+//            String username = readString();
+//            System.out.println("password: ");
+//            String password = readString();
+//            System.out.println("Branch: ");
+//            String branchName = readString();
+//
+//            Collection<Employee> employees = restaurant.getBranch(branchName).getEmployees();
+//            if(employees.isEmpty()){
+//                System.out.println("No employees in this branch");
+//                break;
+//            }
+//            var employee = employees.stream().filter(e -> e.getName().equals(username) && e.getAccount().getPassword().equals(password)).findFirst();
+//            System.out.println(employee);
             switch (menu()) {
                 case 9:
                     adminMenu();
                     break;
                 case 0:
+                    try {
+
+                        FileOutputStream fout = new FileOutputStream("save.bin");
+                        ObjectOutputStream out = new ObjectOutputStream(fout);
+                        out.writeObject(restaurant);
+                        out.flush();
+                        //closing the stream
+                        out.close();
+                        System.out.println("success");
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+
                     exit = true;
                     break;
 
@@ -39,7 +85,13 @@ public class Main {
         }
     }
 
+    public final static void clearConsole() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     private static int menu() {
+        clearConsole();
         System.out.println("----------Menu----------");
 
         System.out.println("9 - Admin");
@@ -49,6 +101,7 @@ public class Main {
     }
 
     private static void adminMenu() {
+        clearConsole();
         System.out.println("----------Admin Menu----------");
         System.out.println("1 - Add Branch");
         System.out.println("2 - Add Kitchen");

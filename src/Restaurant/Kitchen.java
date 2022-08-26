@@ -2,9 +2,10 @@ package Restaurant;
 
 import Employee.Chef;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Kitchen {
+public class Kitchen implements Serializable {
     private String name;
     private HashMap<String,Chef> chefs= new HashMap();
     public Kitchen(String name) {

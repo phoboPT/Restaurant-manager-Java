@@ -1,8 +1,9 @@
 package Entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Customer extends Person {
+public class Customer extends Person implements Serializable {
     private Date lastVisited;
 
     public Customer(Date lastVisited, String name, String email, String phoneNumber) {

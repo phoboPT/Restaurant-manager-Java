@@ -2,14 +2,15 @@ package Entity;
 
 import Employee.Account;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public abstract class Employee extends Person {
-    private static int employeeId=0;
+public abstract class Employee extends Person implements Serializable {
+    private static int employeeId = 0;
     private Date dateJoined;
     private Account account;
 
-    public Employee( Date dateJoined, Account account, String name, String phoneNumber, String email) {
+    public Employee(Date dateJoined, Account account, String name, String phoneNumber, String email) {
         super(name, email, phoneNumber);
 
         this.employeeId++;
@@ -21,7 +22,13 @@ public abstract class Employee extends Person {
         return employeeId;
     }
 
+    public static void setEmployeeId(int employeeId) {
+        Employee.employeeId = employeeId;
+    }
 
+    public String getName() {
+        return super.getName();
+    }
 
     public Date getDateJoined() {
         return dateJoined;
@@ -31,6 +38,13 @@ public abstract class Employee extends Person {
         this.dateJoined = dateJoined;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     @Override
     public String toString() {
